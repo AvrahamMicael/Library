@@ -10,6 +10,8 @@ final class User extends Model {
     private $name;
     private $email;
     private $password;
+    private $book1;
+    private $book2;
 
     public function __get($attr) {
         return $this->$attr;
@@ -74,5 +76,42 @@ final class User extends Model {
         $stmt->bindValue('email', $this->__get('email'));
         $stmt->bindValue('password', $this->__get('password'));
         $stmt->execute();
+    }
+
+    public function getBooks() {
+        $query = '
+            select 
+                b.id,
+                b.author,
+                b.title,
+                b.description,
+                b.published_at,
+                b.pages,
+                b.available,
+                b.image_link,
+                b.genres,
+                u.id_book1,
+                u.id_book2
+            from tb_books as b
+            right join tb_users as u
+            on
+                b.id = u.id_book1
+                or
+                b.id = u.id_book2
+            where u.id_user = :id_user
+        ';// need test
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue('id_user', $this->__get('id_user'));
+        $stmt->execute();
+
+        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        if(count($books) == 0) return null;
+        foreach($books as $key => $book) {
+            $genresArray = explode('#', $book['genres']);
+            $books[$key]['genres'] = implode(', ', $genresArray);
+
+            $books[$key]['test'] = 'working';
+        }
+        return $books;
     }
 }

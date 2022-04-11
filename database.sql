@@ -15,7 +15,11 @@ create table tb_users(
 	id_user int not null primary key AUTO_INCREMENT,
     name varchar(50) not null,
     email varchar(50) not null,
-    password char(128) not null
+    password char(128) not null,
+    id_book1 int,
+    foreign key(id_book1) references tb_books(id),
+    id_book2 int,
+    foreign key(id_book2) references tb_books(id)
 );
 
 --the user with id 1 is the admin

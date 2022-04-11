@@ -23,16 +23,24 @@ final class Book extends Model {
         $this->$attr = $value;
     }
 
-    public function getAll() {
-        $query = '
-            select author, title, description, published_at, pages, available, image_link, genres
-            from tb_books
-        ';
+    public function getData($onlyAvailable = false) {
+        if($onlyAvailable == false) {
+            $query = '
+                select id, author, title, description, published_at, pages, available, image_link, genres
+                from tb_books
+            ';
+        } else {
+            $query = '
+                select id, author, title, description, published_at, pages, available, image_link, genres
+                from tb_books
+                where available = 1
+            ';
+        }
         $stmt = $this->db->query($query);
         $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach($books as $key => $book) {
             $genresArray = explode('#', $book['genres']);
-            $books[$key]['genres'] = implode(' ,', $genresArray);
+            $books[$key]['genres'] = implode(', ', $genresArray);
         }
         return $books;
     }

@@ -16,9 +16,37 @@ final class AppController extends Action {
         $this->validAuth();
 
         $book = Container::getModel('book');
-        $this->view->books = $book->getAll();
+        $this->view->books = $book->getData(true);
 
-        $this->render('available', 'layout2');
+        $this->view->content = 'available';
+        $this->render('books', 'layout2');
+    }
+    
+    public function yourBooks() { 
+        $this->validAuth();
+        
+        $user = Container::getModel('user');
+        $user->__set('id_user', $_SESSION['id_user']);
+        $this->view->books = $user->getBooks();
+
+        $this->view->content = 'your_books';
+        $this->render('books', 'layout2');
+    }
+    
+    public function all() {
+        $this->validAuth();
+        
+        $book = Container::getModel('book');
+        $this->view->books = $book->getData();
+        
+        $this->view->content = 'all';
+        $this->render('books', 'layout2');
+    }
+
+    public function bookInfo() {
+        $this->validAuth();
+
+        $this->render('book_info', 'layout2');
     }
 
     private function validAuth() {

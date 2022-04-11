@@ -29,10 +29,10 @@
 		<div class="container app">
 			<div class="row">
 				<div class="col-md-3 menu">
-					<ul class="list-group"> <!-- mudar o active -->
-						<li class="list-group-item <?= $this->view->page == 'available' ? 'active' : '' ?>"><a class="d-block" href="#">Available</a></li>
-						<li class="list-group-item" <?= $this->view->page == 'your_books' ? 'active' : '' ?>><a class="d-block" href="/your_books">Your Books</a></li>
-						<li class="list-group-item <?= $this->view->page == 'all' ? 'active' : '' ?>"><a class="d-block" href="/all">All</a></li>
+					<ul class="list-group">
+						<li class="list-group-item <?= $this->view->content == 'available' ? 'active' : '' ?>"><a class="d-block" href="/available">Available</a></li>
+						<li class="list-group-item <?= $this->view->content == 'your_books' ? 'active' : '' ?>" ><a class="d-block" href="/your_books">Your Books</a></li>
+						<li class="list-group-item <?= $this->view->content == 'all' ? 'active' : '' ?>"><a class="d-block" href="/all">All</a></li>
 					</ul>
 				</div>
 

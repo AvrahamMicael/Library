@@ -1,4 +1,11 @@
-<?php foreach($this->view->books as $key => $book) { ?>
+<?php?>
+
+<?php 
+
+    if(!empty($this->view->books[0]['title'])) {
+        foreach($this->view->books as $key => $book) { 
+        
+?>
 
     <?php if($key != 0) { ?>
 
@@ -6,7 +13,7 @@
 
     <?php }; ?>
 
-    <div class="row">
+    <div class="row" id="book_<?= $book['id'] ?>">
         <div class="col-sm-3">
             <a href="#">
                 <img class="img-fluid list-img mx-auto d-block" src="<?= $book['image_link'] ?>" alt="cover">
@@ -20,10 +27,19 @@
             <br><br>
 
             <span><?= strlen($book['description']) > 150 ? substr($book['description'], 0, 150) . '...' : $book['description'] ?></span>
-            <br>
+            <br><br>
             
             <small>Genres: <?= $book['genres'] ?></small>
+            <br>
+            
+            <small>Pages: <?= $book['pages'] ?></small>
         </div>
+    </div>
+
+<?php };} else { ?>
+
+    <div class="text-center text-black-50">
+        You do not have any book, try requesting one!
     </div>
 
 <?php }; ?>
