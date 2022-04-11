@@ -44,4 +44,17 @@ final class Book extends Model {
         }
         return $books;
     }
+
+    public function getBookInfo() {
+        $books = $this->getData();
+        foreach($books as $book) {
+            if($book['id'] == $this->__get('id')) $bk = $book;
+        }
+
+        try {
+            return $bk;
+        } catch(Error $e) {
+            header('location: /available?error=404');
+        }
+    }
 }

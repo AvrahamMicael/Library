@@ -105,7 +105,7 @@ final class User extends Model {
         $stmt->execute();
 
         $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        if(count($books) == 0) return null;
+        
         foreach($books as $key => $book) {
             $genresArray = explode('#', $book['genres']);
             $books[$key]['genres'] = implode(', ', $genresArray);

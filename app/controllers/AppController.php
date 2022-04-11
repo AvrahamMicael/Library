@@ -46,6 +46,10 @@ final class AppController extends Action {
     public function bookInfo() {
         $this->validAuth();
 
+        $book = Container::getModel('book');
+        $book->__set('id', $_GET['id']);
+        $this->view->book = $book->getBookInfo();
+
         $this->render('book_info', 'layout2');
     }
 

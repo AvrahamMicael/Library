@@ -13,14 +13,14 @@
 
     <?php }; ?>
 
-    <div class="row" id="book_<?= $book['id'] ?>">
+    <div class="row">
         <div class="col-sm-3">
-            <a href="#">
+            <a href="/book_info?id=<?= $book['id'] ?>">
                 <img class="img-fluid list-img mx-auto d-block" src="<?= $book['image_link'] ?>" alt="cover">
             </a>
         </div>
         <div class="col-sm-9">
-            <a href="#"><?= $book['title'] ?></a>
+            <a href="/book_info?id=<?= $book['id'] ?>"><?= $book['title'] ?></a>
             <br>
 
             <small><?= $book['author'] ?>-<?= $book['published_at'] ?></small>
