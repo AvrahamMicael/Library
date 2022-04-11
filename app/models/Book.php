@@ -14,6 +14,7 @@ final class Book extends Model {
     private int $pages;
     private int $available;
     private string $genres;
+    private string $image_link;
 
     public function __get($attr) {
         return $this->$attr;
@@ -22,12 +23,17 @@ final class Book extends Model {
         $this->$attr = $value;
     }
 
-    public function getData() {
+    public function getAll() {
         $query = '
-            select author, title, description, published_at, pages, available, image, genres
+            select author, title, description, published_at, pages, available, image_link, genres
             from tb_books
         ';
         $stmt = $this->db->query($query);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        foreach($books as $key => $book) {
+            $genresArray = explode('#', $book['genres']);
+            $books[$key]['genres'] = implode(' ,', $genresArray);
+        }
+        return $books;
     }
 }

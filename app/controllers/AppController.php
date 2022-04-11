@@ -14,6 +14,10 @@ use App\Models\User;
 final class AppController extends Action {
     public function available() {
         $this->validAuth();
+
+        $book = Container::getModel('book');
+        $this->view->books = $book->getAll();
+
         $this->render('available', 'layout2');
     }
 

@@ -1,9 +1,29 @@
-<div class="col-md-4">
-    espaço de um livro
-</div>
-<div class="col-md-4">
-    espaço de um livro
-</div>
-<div class="col-md-4">
-    espaço de um livro
-</div>
+<?php foreach($this->view->books as $key => $book) { ?>
+
+    <?php if($key != 0) { ?>
+
+        <hr>
+
+    <?php }; ?>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="#">
+                <img class="img-fluid list-img mx-auto d-block" src="<?= $book['image_link'] ?>" alt="cover">
+            </a>
+        </div>
+        <div class="col-sm-9">
+            <a href="#"><?= $book['title'] ?></a>
+            <br>
+
+            <small><?= $book['author'] ?>-<?= $book['published_at'] ?></small>
+            <br><br>
+
+            <span><?= strlen($book['description']) > 150 ? substr($book['description'], 0, 150) . '...' : $book['description'] ?></span>
+            <br>
+            
+            <small>Genres: <?= $book['genres'] ?></small>
+        </div>
+    </div>
+
+<?php }; ?>

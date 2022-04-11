@@ -32,3 +32,8 @@ h4 {
 .little-small {
 	font-size: 14px;
 }
+
+.list-img {
+	max-width: 150px;
+	max-height: 250px;
+}
