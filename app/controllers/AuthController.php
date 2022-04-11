@@ -7,22 +7,23 @@ use App\Connection;
 use MF\Controller\Action;
 use MF\Model\Container;
 
-class AuthController extends Action {
+final class AuthController extends Action {
     public function authenticate() {
         $user = Container::getModel('user');
 
-        $user->checkIfValid($_POST['name'], $_POST['email'], $_POST['password']);
+        $user->checkIfValid(null, $_POST['email'], $_POST['password']);
 
-        $user->authenticate();
+        print_r($user->authenticate());
 
         if(!empty($user->__get('id_user')) && !empty($user->__get('name'))) {
             session_start();
             $_SESSION['id_user'] = $user->__get('id_user');
             $_SESSION['name'] = $user->__get('name');
 
-            header('location: /lobby');
+            header('location: /available');
 
         } else header('location: /?login=error');
+
     }
 
     public function signup() {

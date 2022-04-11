@@ -27,6 +27,26 @@ class Route extends Bootstrap {
             'controller' => 'AuthController',
             'action' => 'signup'
         ];
+        $routes['logoff'] = [
+            'route' => '/logoff',
+            'controller' => 'AuthController',
+            'action' => 'logoff'
+        ];
+        $routes['available'] = [
+            'route' => '/available',
+            'controller' => 'AppController',
+            'action' => 'available'
+        ];
+        $routes['your_books'] = [
+            'route' => '/your_books',
+            'controller' => 'AppController',
+            'action' => 'yourBooks'
+        ];
+        $routes['all'] = [
+            'route' => '/all',
+            'controller' => 'AppController',
+            'action' => 'all'
+        ];
         $this->setRoutes($routes);
     }
 }

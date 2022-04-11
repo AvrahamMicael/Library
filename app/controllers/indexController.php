@@ -12,7 +12,7 @@ use MF\Model\Container;
 use App\Models\Book;
 use App\Models\User;
 
-class IndexController extends Action {
+final class IndexController extends Action {
     public function index() {
         $this->render('index');
     }

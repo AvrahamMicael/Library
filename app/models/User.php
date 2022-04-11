@@ -5,7 +5,19 @@ namespace App\Models;
 use App\Connection;
 use MF\Model\Model;
 
-class User extends Model {
+final class User extends Model {
+    private $id_user;
+    private $name;
+    private $email;
+    private $password;
+
+    public function __get($attr) {
+        return $this->$attr;
+    }
+    public function __set($attr, $value) {
+        $this->$attr = $value;
+    }
+
     public function getData() {
         $query = '
             select id_user, name, email
@@ -25,30 +37,30 @@ class User extends Model {
                 password = :password
         ';
         $stmt = $this->db->prepare($query);
-        $stmt->bindValue('email', $this->__get('email'));
-        $stmt->bindValue('password', $this->__get('password'));
+        $stmt->bindValue(':email', $this->__get('email'));
+        $stmt->bindValue(':password', $this->__get('password'));
         $stmt->execute();
 
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if(!is_null($user)) {
-            $this->__set('id_user', $user->__get('id_user'));
-            $this->__set('name', $user->__get('name'));
+        if(!empty($user)) {
+            $this->__set('id_user', $user['id_user']);
+            $this->__set('name', $user['name']);
         }
-
-        return $user;
     }
 
-    public function checkIfValid($name, $email, $pass) {
-        $name = $_POST['name'] ?? null;
-        $email = $_POST['email'] ?? null;
-        $password = $_POST['password'] ?? null;
+    public function checkIfValid($name, $email, $password) {
+        $name = $name ?? null;
+        $email = $email ?? null;
+        $password = $password ?? null;
 
-        if(strlen($name) < 4 || strlen($email) < 12 || strlen($pass) < 4) header('location: /?login=error') 
+        if(!is_null($name) && strlen($name) < 4) header('location: /?login=error'); //change location
+        if(!is_null($email) && strlen($email) < 12) header('location: /?login=error');
+        if(!is_null($password) && strlen($password) < 4) header('location: /?login=error');
 
-        $user->__set('name', $name);
-        $user->__set('email', $email);
-        $user->__set('password', hash('sha3-512', $pass));
+        $this->__set('name', $name);
+        $this->__set('email', $email);
+        $this->__set('password', hash('sha3-512', $password));
     }
 
     public function signup() {
