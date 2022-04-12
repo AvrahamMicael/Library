@@ -6,15 +6,15 @@ use App\Connection;
 use MF\Model\Model;
 
 final class Book extends Model {
-    private int $id;
-    private string $author;
-    private string $title;
-    private string $description;
-    private string $published_at;
-    private int $pages;
-    private int $available;
-    private string $genres;
-    private string $image_link;
+    private $id;
+    private $author;
+    private $title;
+    private $description;
+    private $published_at;
+    private $pages;
+    private $available;
+    private $genres;
+    private $image_link;
 
     public function __get($attr) {
         return $this->$attr;
@@ -45,16 +45,15 @@ final class Book extends Model {
         return $books;
     }
 
-    public function getBookInfo() {
+    public function getBook() {
         $books = $this->getData();
+        $bk = null;
         foreach($books as $book) {
             if($book['id'] == $this->__get('id')) $bk = $book;
         }
 
-        try {
-            return $bk;
-        } catch(Error $e) {
-            header('location: /available?error=404');
-        }
+        if(is_null($bk)) header('location: /available?error=404');
+        return $bk;
     }
+
 }

@@ -21,6 +21,12 @@ create table tb_users(
     id_book2 int,
     foreign key(id_book2) references tb_books(id)
 );
+create table tb_requests(
+	request_sender_id int not null,
+    foreign key(request_sender_id) references tb_users(id_user),
+    requested_book_id int not null,
+    foreign key(requested_book_id) references tb_books(id)
+);
 
 --the user with id 1 is the admin
 

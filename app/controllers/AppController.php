@@ -48,9 +48,33 @@ final class AppController extends Action {
 
         $book = Container::getModel('book');
         $book->__set('id', $_GET['id']);
-        $this->view->book = $book->getBookInfo();
+        $this->view->book = $book->getBook();
+        $this->view->request = $_GET['r'] ?? null;
 
         $this->render('book_info', 'layout2');
+    }
+
+    public function request() {
+        $this->validAuth();
+
+        $id = $_GET['id'] ?? ''; //book_id
+
+        $book = Container::getModel('book');
+        $book->__set('id', $id);
+        $available = $book->getBook()['available'];
+
+        $r = null;
+
+        if($available == 1) { 
+
+            $request = Container::getModel('request');
+            $request->__set('requested_book_id', $id);
+            $request->__set('request_sender_id', $_SESSION['id_user']);
+            $r = $request->sendRequest();
+
+        }
+
+        header("location: /book_info?id=$id&r=$r");
     }
 
     private function validAuth() {

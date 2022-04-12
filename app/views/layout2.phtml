@@ -26,6 +26,14 @@
 			</div>
 		</nav>
 
+		<?php if(isset($_GET['error']) && $_GET['error'] == 404) { ?>
+
+			<div class="bg-danger text-center text-light">
+				Book was not found
+			</div>
+
+		<?php }; ?>
+
 		<div class="container app">
 			<div class="row">
 				<div class="col-md-3 menu">

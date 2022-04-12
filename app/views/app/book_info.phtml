@@ -1,4 +1,19 @@
 <div class="row">
+
+    <?php if(isset($this->view->request) && $this->view->request == false) { ?>
+
+        <div class="col-12 bg-warning text-light text-center mb-2">
+            Already Requested
+        </div>
+        
+    <?php } elseif($this->view->request == true) { ?>
+            
+        <div class="col-12 bg-success text-light text-center mb-2">
+            Successfully Requested
+        </div>
+
+    <?php }; ?>
+
     <div class="col-sm-3">
         <a href="#">
             <img class="img-fluid list-img mx-auto d-block" src="<?= $this->view->book['image_link'] ?>" alt="cover">
@@ -19,4 +34,23 @@
         
         <small>Pages: <?= $this->view->book['pages'] ?></small>
     </div>
+
+    <div class="col-sm-12 text-center mt-3">
+
+        <?php if($this->view->request == true) { ?>
+
+            <a href="/request?id=<?= $this->view->book['id'] ?>" class="btn btn-warning text-white">Already Requested</a>
+            
+        <?php } elseif($this->view->book['available'] == 1) { ?>
+                
+                <a href="/request?id=<?= $this->view->book['id'] ?>" class="btn btn-success text-white">Request</a>
+
+        <?php } else { ?>
+
+                <a href="#" class="btn btn-info disabled text-white">This book is not available</a>
+
+        <?php }; ?>
+
+    </div>
+    
 </div>
