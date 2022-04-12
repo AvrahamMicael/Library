@@ -22,10 +22,7 @@ final class Request extends Model {
                 insert into tb_requests(request_sender_id, requested_book_id)
                 values(?, ?)
             ';
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(1, $this->__get('request_sender_id'));
-            $stmt->bindValue(2, $this->__get('requested_book_id'));
-            $stmt->execute();
+            $this->prepareExecFetchQuery($query, ['request_sender_id', 'requested_book_id']);
             return true;
         } 
         return false;
@@ -40,14 +37,11 @@ final class Request extends Model {
                     and
                     requested_book_id = ?
             ';
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(1, $this->__get('request_sender_id'));
-            $stmt->bindValue(2, $this->__get('requested_book_id'));
-            $stmt->execute();
+            $this->prepareExecFetchQuery($query, ['request_sender_id', 'requested_book_id']);
         }
     }
     
-    private function verifyRequest() {
+    public function verifyRequest() {
         $query = '
             select request_sender_id, requested_book_id
             from tb_requests
@@ -56,11 +50,8 @@ final class Request extends Model {
                 and
                 requested_book_id = ?
         ';
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue(1, $this->__get('request_sender_id'));
-        $stmt->bindValue(2, $this->__get('requested_book_id'));
-        $stmt->execute();
+        $req = $this->prepareExecFetchQuery($query, ['request_sender_id', 'requested_book_id']);
 
-        return empty($stmt->fetch()) ? false : true;
+        return empty($req) ? false : true;
     }
 }

@@ -34,16 +34,12 @@ final class User extends Model {
             select id_user, name
             from tb_users
             where 
-                email = :email
+                email = ?
                 and
-                password = :password
+                password = ?
         ';
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':email', $this->__get('email'));
-        $stmt->bindValue(':password', $this->__get('password'));
-        $stmt->execute();
 
-        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $user = $this->prepareExecFetchQuery($query, ['email', 'password']);
 
         if(!empty($user)) {
             $this->__set('id_user', $user['id_user']);
@@ -68,14 +64,10 @@ final class User extends Model {
     public function signup() {
         $query = '
             insert into tb_users(name, email, password)
-            values(:name, :email, :password)
+            values(?, ?, ?)
         ';
 
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue('name', $this->__get('name'));
-        $stmt->bindValue('email', $this->__get('email'));
-        $stmt->bindValue('password', $this->__get('password'));
-        $stmt->execute();
+        $this->prepareExecFetchQuery($query, ['name', 'email', 'password']);
     }
 
     public function getBooks() {
@@ -98,14 +90,11 @@ final class User extends Model {
                 b.id = u.id_book1
                 or
                 b.id = u.id_book2
-            where u.id_user = :id_user
-        ';// need test
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue('id_user', $this->__get('id_user'));
-        $stmt->execute();
+            where u.id_user = ?
+        ';
 
-        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
+        $books = $this->prepareExecFetchQuery($query, ['id_user'], true);
+
         foreach($books as $key => $book) {
             $genresArray = explode('#', $book['genres']);
             $books[$key]['genres'] = implode(', ', $genresArray);

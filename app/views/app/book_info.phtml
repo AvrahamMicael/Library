@@ -1,19 +1,5 @@
 <div class="row">
 
-    <?php if(isset($this->view->request) && $this->view->request == false) { ?>
-
-        <div class="col-12 bg-warning text-light text-center mb-2">
-            Already Requested
-        </div>
-        
-    <?php } elseif($this->view->request == true) { ?>
-            
-        <div class="col-12 bg-success text-light text-center mb-2">
-            Successfully Requested
-        </div>
-
-    <?php }; ?>
-
     <div class="col-sm-3">
         <a href="#">
             <img class="img-fluid list-img mx-auto d-block" src="<?= $this->view->book['image_link'] ?>" alt="cover">
@@ -37,7 +23,7 @@
 
     <div class="col-sm-12 text-center mt-3">
 
-        <?php if($this->view->request == true) { ?>
+        <?php if($this->view->requested == true) { ?>
 
             <a href="/remove_request?id=<?= $this->view->book['id'] ?>" class="btn btn-danger text-white">Remove Request</a>
             
