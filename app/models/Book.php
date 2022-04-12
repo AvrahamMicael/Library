@@ -24,7 +24,7 @@ final class Book extends Model {
     }
 
     public function getData($onlyAvailable = false) {
-        if($onlyAvailable == false) {
+        if(!$onlyAvailable) {
             $query = '
                 select id, author, title, description, published_at, pages, available, image_link, genres
                 from tb_books
@@ -36,8 +36,7 @@ final class Book extends Model {
                 where available = 1
             ';
         }
-        $stmt = $this->db->query($query);
-        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $books = $this->prepareExecFetchQuery($query, [], true);
         foreach($books as $key => $book) {
             $genresArray = explode('#', $book['genres']);
             $books[$key]['genres'] = implode(', ', $genresArray);

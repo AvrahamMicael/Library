@@ -10,8 +10,8 @@ final class User extends Model {
     private $name;
     private $email;
     private $password;
-    private $book1;
-    private $book2;
+    private $id_book1;
+    private $id_book2;
 
     public function __get($attr) {
         return $this->$attr;
@@ -25,8 +25,7 @@ final class User extends Model {
             select id_user, name, email
             from tb_users
         ';
-        $stmt = $this->db->query($query);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->prepareExecFetchQuery($query, [], true);
     }
 
     public function authenticate() {

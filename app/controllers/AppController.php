@@ -46,7 +46,21 @@ final class AppController extends Action {
     public function viewRequests() {
         $this->validAuthAdmin();
 
+        $req = Container::getModel('request');
+        $this->view->requests = $req->getRequests();
+
         $this->render('requests', 'layout3');
+    }
+
+    public function acceptRequest() {
+        $this->validAuthAdmin();
+
+        $req = Container::getModel('request');
+        $req->__set('request_sender_id', $_POST['id_user']);
+        $req->__set('requested_book_id', $_POST['id_book']);
+        $req->acceptRequest();
+
+        header('location: /view_requests');
     }
 
     public function bookInfo() {

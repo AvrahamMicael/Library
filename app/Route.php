@@ -67,6 +67,11 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'viewRequests'
         ];
+        $routes['accept_request'] = [
+            'route' => '/accept_request',
+            'controller' => 'AppController',
+            'action' => 'acceptRequest'
+        ];
         $this->setRoutes($routes);
     }
 }
