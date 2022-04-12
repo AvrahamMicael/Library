@@ -62,6 +62,11 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'removeRequest'
         ];
+        $routes['view_requests'] = [
+            'route' => '/view_requests',
+            'controller' => 'AppController',
+            'action' => 'viewRequests'
+        ];
         $this->setRoutes($routes);
     }
 }

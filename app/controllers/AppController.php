@@ -43,6 +43,12 @@ final class AppController extends Action {
         $this->render('books', 'layout2');
     }
 
+    public function viewRequests() {
+        $this->validAuthAdmin();
+
+        $this->render('requests', 'layout3');
+    }
+
     public function bookInfo() {
         $this->validAuth();
 
@@ -96,10 +102,11 @@ final class AppController extends Action {
     private function validAuth() {
         session_start();
         if(empty($_SESSION['id_user']) && empty($_SESSION['name'])) header('location: /');
+        if($_SESSION['id_user'] == 1) header('location: /view_requests');
     }
     
     private function validAuthAdmin() {
-        $this->validAuth();
-        if($_SESSION['id_user'] != 1 && $_SESSION['name'] !='Admin') header('location: /');
+        session_start();
+        if($_SESSION['id_user'] != 1) header('location: /');
     }
 }

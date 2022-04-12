@@ -20,6 +20,8 @@ final class AuthController extends Action {
             $_SESSION['id_user'] = $user->__get('id_user');
             $_SESSION['name'] = $user->__get('name');
 
+            if($_SESSION['id_user'] == 1) header('location: /view_requests');
+
             header('location: /available');
 
         } else header('location: /?login=error');

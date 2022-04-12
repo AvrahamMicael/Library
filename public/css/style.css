@@ -37,3 +37,9 @@ h4 {
 	max-width: 150px;
 	max-height: 250px;
 }
+
+.request-box {
+	width: 200px;
+	height: 133px;
+	border: 1px solid #DFDFDF;
+}
