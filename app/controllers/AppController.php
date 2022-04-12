@@ -77,8 +77,26 @@ final class AppController extends Action {
         header("location: /book_info?id=$id&r=$r");
     }
 
+    public function removeRequest() {
+        $this->validAuth();
+
+        $id = $_GET['id'] ?? ''; //book_id
+
+        $request = Container::getModel('request');
+        $request->__set('requested_book_id', $id);
+        $request->__set('request_sender_id', $_SESSION['id_user']);
+        $request->removeRequest();
+
+        header("location: /book_info?id=$id");
+    }
+
     private function validAuth() {
         session_start();
         if(empty($_SESSION['id_user']) && empty($_SESSION['name'])) header('location: /');
+    }
+    
+    private function validAuthAdmin() {
+        $this->validAuth();
+        if($_SESSION['id_user'] != 1 && $_SESSION['name'] !='Admin') header('location: /');
     }
 }

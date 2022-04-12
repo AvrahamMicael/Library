@@ -30,6 +30,22 @@ final class Request extends Model {
         } 
         return false;
     }
+
+    public function removeRequest() {
+        if($this->verifyRequest()) {
+            $query = '
+                delete from tb_requests
+                where
+                    request_sender_id = ?
+                    and
+                    requested_book_id = ?
+            ';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $this->__get('request_sender_id'));
+            $stmt->bindValue(2, $this->__get('requested_book_id'));
+            $stmt->execute();
+        }
+    }
     
     private function verifyRequest() {
         $query = '

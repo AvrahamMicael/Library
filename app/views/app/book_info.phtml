@@ -39,7 +39,7 @@
 
         <?php if($this->view->request == true) { ?>
 
-            <a href="/request?id=<?= $this->view->book['id'] ?>" class="btn btn-warning text-white">Already Requested</a>
+            <a href="/remove_request?id=<?= $this->view->book['id'] ?>" class="btn btn-danger text-white">Remove Request</a>
             
         <?php } elseif($this->view->book['available'] == 1) { ?>
                 
