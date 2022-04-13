@@ -112,6 +112,17 @@ final class Request extends Model {
         $this->toggleAvailable();
     }
 
+    public function rejectRequest() {
+        $query = '
+            delete from tb_requests
+            where 
+                requested_book_id = ?
+                and
+                request_sender_id = ?
+        ';
+        $this->prepareExecFetchQuery($query, ['requested_book_id', 'request_sender_id']);
+    }
+
     public function toggleAvailable() {
         $query = '
             select available

@@ -64,7 +64,28 @@ final class AppController extends Action {
         $req->__set('requested_book_id', $_POST['id_book']);
         $req->acceptRequest();
 
-        header('location: /view_requests');
+        // $not = Container::getModel('notification');
+        // $not->__set('id_user', $_POST['id_user']);
+        // $not->__set('content', 'Admin accepted your request!')
+        // $not->sendNotification();
+
+        header("location: /view_requests");
+    }
+
+    public function rejectRequest() {
+        $this->validAuthAdmin();
+
+        $req = Container::getModel('request');
+        $req->__set('request_sender_id', $_POST['id_user']);
+        $req->__set('requested_book_id', $_POST['id_book']);
+        $req->rejectRequest();
+
+        // $not = Container::getModel('notification');
+        // $not->__set('id_user', $_POST['id_user']);
+        // $not->__set('content', 'Admin rejected your request!');
+        // $not->sendNotification();
+
+        header("location: /view_requests");
     }
 
     public function bookInfo() {

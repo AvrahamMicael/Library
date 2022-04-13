@@ -40,7 +40,11 @@ h4 {
 }
 
 .request-box {
-	min-width: 200px;
-	min-height: 150px;
+	min-width: 210px;
+	min-height: 200px !important;
 	border: 1px solid #DFDFDF;
+}
+
+.title {
+	font-size: 0.91em;
 }

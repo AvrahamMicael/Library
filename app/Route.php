@@ -72,6 +72,11 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'acceptRequest'
         ];
+        $routes['reject_request'] = [
+            'route' => '/reject_request',
+            'controller' => 'AppController',
+            'action' => 'rejectRequest'
+        ];
         $routes['remove_book'] = [
             'route' => '/remove_book',
             'controller' => 'AppController',
