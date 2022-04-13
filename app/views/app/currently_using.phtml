@@ -1,11 +1,7 @@
 <?php if(!empty($this->view->books[0]['title'])) { 
         foreach($this->view->books as $key => $info) {    
-            if($key != 0) {
+            if($key != 0) echo '<hr>';
 ?>
-
-<hr>
-
-<?php } ?>
 
     <div class="row">
         <div class="col-sm-9 align-self-center">
@@ -18,7 +14,7 @@
             <small><?= $info['author'] ?></small>
 
             <div class="mt-3">
-                <a class="btn btn-danger" href="/removeBookAdmin?id=<?= $info['id'] ?>">Remove Book</a>
+                <a class="btn btn-danger btn-sm" href="/remove_book_admin?id=<?= $info['id'] ?>&id_user=<?= $info['id_user'] ?>">Remove Book</a>
             </div>
         </div>
         <div class="col-sm-3">

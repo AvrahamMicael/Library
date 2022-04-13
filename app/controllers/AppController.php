@@ -109,6 +109,24 @@ final class AppController extends Action {
         header("location: /book_info?id=$id");
     }
 
+    public function removeBookAdmin() {
+        $this->validAuthAdmin();
+
+        $id = $_GET['id'] ?? ''; //book_id
+        $id_user = $_GET['id_user'] ?? '';
+
+        $user = Container::getModel('user');
+        $user->__set('id_user', $id_user);
+        $user->__set('id_book1', $id); //or 'id_book2'
+        $user->removeUserBook();
+
+        $req = Container::getModel('request');
+        $req->__set('requested_book_id', $id);
+        $req->toggleAvailable();
+
+        header('location: /currently_using');
+    }
+
     public function request() {
         $this->validAuth();
 

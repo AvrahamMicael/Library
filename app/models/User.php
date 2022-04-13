@@ -116,7 +116,8 @@ final class User extends Model {
                     b.author,
                     b.title,
                     b.image_link,
-                    u.name
+                    u.name,
+                    u.id_user
                 from tb_books as b
                 right join tb_users as u
                 on
