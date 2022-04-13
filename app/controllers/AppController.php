@@ -83,6 +83,15 @@ final class AppController extends Action {
         $this->render('book_info', 'layout2');
     }
 
+    public function currentlyUsing() {
+        $this->validAuthAdmin();
+
+        $user = Container::getModel('user');
+        $this->view->books = $user->getBooks(true);
+
+        $this->render('currently_using', 'layout3');
+    }
+
     public function removeBook() {
         $this->validAuth();
 
@@ -153,7 +162,7 @@ final class AppController extends Action {
     private function validAuth() {
         session_start();
         if(empty($_SESSION['id_user']) && empty($_SESSION['name'])) header('location: /');
-        if($_SESSION['id_user'] == 1) header('location: /view_requests');
+        elseif($_SESSION['id_user'] == 1) header('location: /view_requests');
     }
     
     private function validAuthAdmin() {

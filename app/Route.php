@@ -77,6 +77,11 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'removeBook'
         ];
+        $routes['currently_using'] = [
+            'route' => '/currently_using',
+            'controller' => 'AppController',
+            'action' => 'currentlyUsing'
+        ];
         $this->setRoutes($routes);
     }
 }

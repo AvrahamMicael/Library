@@ -80,35 +80,57 @@ final class User extends Model {
         $this->prepareExecFetchQuery($query, ['name', 'email', 'password']);
     }
 
-    public function getBooks() {
-        $query = '
-            select 
-                b.id,
-                b.author,
-                b.title,
-                b.description,
-                b.published_at,
-                b.pages,
-                b.available,
-                b.image_link,
-                b.genres,
-                u.id_book1,
-                u.id_book2
-            from tb_books as b
-            right join tb_users as u
-            on
-                b.id = u.id_book1
-                or
-                b.id = u.id_book2
-            where u.id_user = ?
-        ';
+    public function getBooks(bool $currentlyUsing = false) {
+        if(!$currentlyUsing) {
+            $query = '
+                select 
+                    b.id,
+                    b.author,
+                    b.title,
+                    b.description,
+                    b.published_at,
+                    b.pages,
+                    b.available,
+                    b.image_link,
+                    b.genres,
+                    u.id_book1,
+                    u.id_book2
+                from tb_books as b
+                right join tb_users as u
+                on
+                    b.id = u.id_book1
+                    or
+                    b.id = u.id_book2
+                where u.id_user = ?
+            ';
+            $books = $this->prepareExecFetchQuery($query, ['id_user'], true);
+            foreach($books as $key => $book) {
+                $genresArray = explode('#', $book['genres']);
+                $books[$key]['genres'] = implode(', ', $genresArray);
+            }
 
-        $books = $this->prepareExecFetchQuery($query, ['id_user'], true);
-
-        foreach($books as $key => $book) {
-            $genresArray = explode('#', $book['genres']);
-            $books[$key]['genres'] = implode(', ', $genresArray);
+        } else {
+            $query = '
+                select 
+                    b.id,
+                    b.author,
+                    b.title,
+                    b.image_link,
+                    u.name
+                from tb_books as b
+                right join tb_users as u
+                on
+                    b.id = u.id_book1
+                    or
+                    b.id = u.id_book2
+                where 
+                    ISNULL(u.id_book1) = 0
+                    or
+                    ISNULL(u.id_book2) = 0
+            ';
+            $books = $this->prepareExecFetchQuery($query, [], true);
         }
+        
         return $books;
     }
 

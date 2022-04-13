@@ -1,27 +1,37 @@
-<div class="row">
+<?php if(!empty($this->view->requests[0]['name'])) { ?>
 
-    <?php foreach($this->view->requests as $request) { ?>
+    <div class="row">
 
-        <div class="col-sm-3 request-box mx-3 mb-3 bg-light p-3">
-            <div class="text-center">
-                <div>
-                    <strong><?= $request['name'] ?></strong> requested:
-                </div>
+        <?php foreach($this->view->requests as $request) { ?>
 
-                <div class="my-2">
-                    <em><?= strlen($request['title']) > 26 ? substr($request['title'], 0, 25).'...' : $request['title'] ?></em>
-                </div>
-
-                <form action="/accept_request" method="post">
-                    <input type="hidden" name="id_book" value="<?= $request['id'] ?>">
-                    <input type="hidden" name="id_user" value="<?= $request['id_user'] ?>">
-                    <div class="col-sm-13">
-                        <button type="submit" class="btn btn-info btn-sm text-white">Accept Request</button>
+            <div class="col-sm-3 request-box mx-3 mb-3 bg-light p-3">
+                <div class="text-center">
+                    <div>
+                        <strong><?= $request['name'] ?></strong> requested:
                     </div>
-                </form>
+
+                    <div class="my-2">
+                        <em><?= strlen($request['title']) > 26 ? substr($request['title'], 0, 25).'...' : $request['title'] ?></em>
+                    </div>
+
+                    <form action="/accept_request" method="post">
+                        <input type="hidden" name="id_book" value="<?= $request['id'] ?>">
+                        <input type="hidden" name="id_user" value="<?= $request['id_user'] ?>">
+                        <div class="col-sm-13">
+                            <button type="submit" class="btn btn-info btn-sm text-white">Accept Request</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
-    <?php }; ?>
+        <?php }; ?>
 
-</div>
+    </div>
+
+<?php } else { ?>
+    
+    <div class="text-center text-black-50">
+        There is not any request!
+    </div>
+
+<?php } ?>
