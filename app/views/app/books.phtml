@@ -34,7 +34,13 @@
         </div>
     </div>
 
-<?php };} else { ?>
+    <?php if(isset($this->view->admin) && $this->view->admin == true) { ?>
+
+        <div class="text-right mt-3">
+            <a href="/remove_book_permanently?id=<?= $book['id'] ?>" class="btn btn-danger btn-sm text-white">Remove Book Permanently</a>
+        </div>
+
+<?php };};} else { ?>
 
     <div class="text-center text-black-50">
         You do not have any book, try requesting one!

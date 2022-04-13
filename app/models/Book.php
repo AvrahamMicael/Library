@@ -63,4 +63,12 @@ final class Book extends Model {
         $this->prepareExecFetchQuery($query, ['title', 'author', 'description', 'published_at', 'pages', 'genres', 'image_link']);
     }
 
+    public function removeBookPermanently() {
+        $query = '
+            delete from tb_books
+            where id = ?
+        ';
+        $this->prepareExecFetchQuery($query, ['id']);
+    }
+
 }

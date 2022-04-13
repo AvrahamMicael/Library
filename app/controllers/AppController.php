@@ -34,13 +34,17 @@ final class AppController extends Action {
     }
     
     public function all() {
-        $this->validAuth();
+        $this->validAuth(true);
+
+        if($_SESSION['id_user'] == 1) $this->view->admin = true;
         
         $book = Container::getModel('book');
         $this->view->books = $book->getData();
         
         $this->view->content = 'all';
-        $this->render('books', 'layout2');
+        
+        if($_SESSION['id_user'] == 1) $this->render('books', 'layout3');
+        else $this->render('books', 'layout2');
     }
 
     public function viewRequests() {
@@ -129,6 +133,18 @@ final class AppController extends Action {
 
     }
 
+    public function removeBookPermanently() {
+        $this->validAuthAdmin();
+
+        if($_SESSION['id_user'] == 1) {
+            $book = Container::getModel('book');
+            $book->__set('id', $_GET['id']);
+            $book->removeBookPermanently();
+        }
+
+        header('location: /all');
+    }
+
     public function removeBook() {
         $this->validAuth();
 
@@ -214,10 +230,10 @@ final class AppController extends Action {
         header("location: /book_info?id=$id");
     }
 
-    private function validAuth() {
+    private function validAuth(bool $all = false) {
         session_start();
         if(empty($_SESSION['id_user']) && empty($_SESSION['name'])) header('location: /');
-        elseif($_SESSION['id_user'] == 1) header('location: /view_requests');
+        elseif($_SESSION['id_user'] == 1 && !$all) header('location: /view_requests');
     }
     
     private function validAuthAdmin() {

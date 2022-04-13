@@ -97,6 +97,11 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'addBook'
         ];
+        $routes['remove_book_permanently'] = [
+            'route' => '/remove_book_permanently',
+            'controller' => 'AppController',
+            'action' => 'removeBookPermanently'
+        ];
         $this->setRoutes($routes);
     }
 }
