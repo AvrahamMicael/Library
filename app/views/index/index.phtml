@@ -1,5 +1,14 @@
 <div class="container app d-flex justify-content-center">
     <div class="page">
+
+        <?php if(isset($_GET['signup']) && $_GET['signup'] == 'success') { ?>
+        
+            <span class="text-center text-light bg-success mb-1 d-block">
+                    Successfuly registered!
+            </span>
+
+        <?php }; ?>
+
         <h3 class="text-info">Login</h3>
         <form class="form-group" action="/auth" method="post">
             <label>Email:</label><br>
@@ -7,7 +16,23 @@
             <label>Password:</label><br>
             <input class="form-control" type="password" name="password">
 
-            <div class="d-flex justify-content-center">
+            <?php if(isset($_GET['error'])) {
+                    if($_GET['error'] == 1) {    
+            ?>
+
+                <small class="text-center text-danger my-1 d-block">
+                    Your email and/or password are invalid.
+                </small>
+            
+            <?php } elseif($_GET['error'] == 2) { ?>
+
+                <small class="text-center text-danger my-1 d-block text-wrap">
+                    Your email need to have more than 11 characters and your password more than 3.
+                </small>
+
+            <?php }}; ?>
+
+            <div class="d-flex justify-content-center mt-1">
                 <button type="submit" class="btn btn-info">Login</button>
             </div>
         </form>

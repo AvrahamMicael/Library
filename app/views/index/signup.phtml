@@ -9,14 +9,30 @@
             <label>Password:</label><br>
             <input class="form-control" type="password" name="password">
 
-            <div class="d-flex justify-content-center">
+            <?php if(isset($_GET['error'])) {
+                    if($_GET['error'] == 3) {    
+            ?>
+
+                <small class="text-center text-danger my-1 d-block">
+                    Email is already being used.
+                </small>
+            
+            <?php } elseif($_GET['error'] == 2) { ?>
+
+                <small class="text-center text-danger my-1 d-block text-wrap">
+                    Your email need to have more than 11 characters and your name and password more than 3.
+                </small>
+
+            <?php }}; ?>
+
+            <div class="d-flex justify-content-center mt-1">
                 <button type="submit" class="btn btn-success">Sign Up</button>
             </div>
         </form>
         <hr>
-        <div class="lead d-flex justify-content-center little-small">Already have an account?</div>
+        <div class="lead text-center little-small">Already have an account?</div>
         <br>
-        <div class="d-flex justify-content-center">
+        <div class="text-center">
             <a href="/" class="btn btn-info">Login</a>
         </div>
     </div>

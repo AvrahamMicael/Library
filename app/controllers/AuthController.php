@@ -11,9 +11,9 @@ final class AuthController extends Action {
     public function authenticate() {
         $user = Container::getModel('user');
 
-        $user->checkIfValid(null, $_POST['email'], $_POST['password']);
+        $error = $user->checkIfValid(null, $_POST['email'], $_POST['password']);
 
-        print_r($user->authenticate());
+        $user->authenticate();
 
         if(!empty($user->__get('id_user')) && !empty($user->__get('name'))) {
             session_start();
@@ -24,7 +24,8 @@ final class AuthController extends Action {
 
             header('location: /available');
 
-        } else header('location: /?login=error');
+        } elseif($error == true) header('location: /?error=2');
+        else header('location: /?error=1');
 
     }
 
@@ -33,11 +34,13 @@ final class AuthController extends Action {
 
         $user->checkIfValid($_POST['name'], $_POST['email'], $_POST['password']);
 
-        if(count($user->authenticate()) != 0 ) header('location: /signup?signup=error');
 
-        $user->signup();
-
-        header('location: /?signup=success');
+        if(!empty($user->getUserByEmail())) header('location: /signup?error=3');
+        else {
+            $user->signup();
+            if(!$error) header('location: /?signup=success');
+            else header('location: /signup?error=2');
+        }
     }
 
     public function logoff() {

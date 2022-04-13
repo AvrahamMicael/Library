@@ -9,6 +9,7 @@
 .page {
 	border:solid 1px #DFDFDF;
 	padding:25px !important;
+	max-width: 264.73px;
 }
 
 li.list-group-item.active {

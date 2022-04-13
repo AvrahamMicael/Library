@@ -46,18 +46,29 @@ final class User extends Model {
         }
     }
 
+    public function getUserByEmail() {
+        $query = '
+            select id_user, name
+            from tb_users
+            where email = ?
+        ';
+        return $this->prepareExecFetchQuery($query, ['email']);
+    }
+
     public function checkIfValid($name, $email, $password) {
         $name = $name ?? null;
         $email = $email ?? null;
         $password = $password ?? null;
 
-        if(!is_null($name) && strlen($name) < 4) header('location: /?login=error'); //change location
-        if(!is_null($email) && strlen($email) < 12) header('location: /?login=error');
-        if(!is_null($password) && strlen($password) < 4) header('location: /?login=error');
+        if(!is_null($name) && strlen($name) < 4) return true;
+        if(!is_null($email) && strlen($email) < 12) return true;
+        if(!is_null($password) && strlen($password) < 4) return true;
 
         $this->__set('name', $name);
         $this->__set('email', $email);
         $this->__set('password', hash('sha3-512', $password));
+
+        return false;
     }
 
     public function signup() {
