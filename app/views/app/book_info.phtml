@@ -31,7 +31,11 @@
 
     <div class="col-sm-12 text-center mt-3">
 
-        <?php if($this->view->requested == true) { ?>
+        <?php if($this->view->alreadyHave[0] == $this->view->book['id'] || $this->view->alreadyHave[1] == $this->view->book['id']) { ?>
+
+            <a href="/remove_book?id=<?= $this->view->book['id'] ?>" class="btn btn-danger text-white">Remove Book</a>
+
+        <?php } elseif($this->view->requested == true) { ?>
 
             <a href="/remove_request?id=<?= $this->view->book['id'] ?>" class="btn btn-danger text-white">Remove Request</a>
             

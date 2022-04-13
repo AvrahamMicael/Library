@@ -48,7 +48,7 @@ final class User extends Model {
 
     public function getUserByEmail() {
         $query = '
-            select id_user, name
+            select *
             from tb_users
             where email = ?
         ';
@@ -108,9 +108,29 @@ final class User extends Model {
         foreach($books as $key => $book) {
             $genresArray = explode('#', $book['genres']);
             $books[$key]['genres'] = implode(', ', $genresArray);
-
-            $books[$key]['test'] = 'working';
         }
         return $books;
+    }
+
+    public function getUserBooksId() {
+        $books = $this->getBooks();
+        $user_books_ids = [];
+        $user_books_ids[] = $books[0]['id_book1'] ?? '';
+        $user_books_ids[] = $books[0]['id_book2'] ?? '';
+        return $user_books_ids;
+    }
+
+    public function removeUserBook() {
+        $user_books_ids = $this->getUserBooksId();
+        $id_book = '';
+        if($user_books_ids[0] == $this->__get('id_book1')) $id_book = 'id_book1';
+        if($user_books_ids[1] == $this->__get('id_book1')) $id_book = 'id_book2';
+
+        $query = "
+            update tb_users
+            set $id_book = null
+            where $id_book = ?
+        ";
+        $this->prepareExecFetchQuery($query, ['id_book1']);
     }
 }

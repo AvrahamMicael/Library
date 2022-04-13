@@ -70,14 +70,34 @@ final class AppController extends Action {
         $book->__set('id', $_GET['id']);
         $this->view->book = $book->getBook();
 
+        $user = Container::getModel('user');
+        $user->__set('id_user', $_SESSION['id_user']);
+        $this->view->alreadyHave = $user->getUserBooksId();
+
         $request = Container::getModel('request');
         $request->__set('requested_book_id', $_GET['id']);
         $request->__set('request_sender_id', $_SESSION['id_user']);
-
         $this->view->requested = $request->verifyRequest();
         $this->view->warning = $_GET['warning'] ?? '';
 
         $this->render('book_info', 'layout2');
+    }
+
+    public function removeBook() {
+        $this->validAuth();
+
+        $id = $_GET['id'] ?? ''; //book_id
+
+        $user = Container::getModel('user');
+        $user->__set('id_user', $_SESSION['id_user']);
+        $user->__set('id_book1', $id); //or 'id_book2'
+        $user->removeUserBook();
+
+        $req = Container::getModel('request');
+        $req->__set('requested_book_id', $id);
+        $req->toggleAvailable();
+
+        header("location: /book_info?id=$id");
     }
 
     public function request() {
@@ -102,11 +122,11 @@ final class AppController extends Action {
             $user = Container::getModel('user');
             $user->__set('id_user', $_SESSION['id_user']);
 
-            $user_books = count($user->getBooks());
-
-            echo $user_reqs;
-            echo '<br>';
-            echo $user_books;
+            $user_books_ids = $user->getUserBooksId();
+            $user_books = 0;
+            foreach($user_books_ids as $book_id) {
+                if(!empty($book_id)) $user_books++;
+            }
 
             if($user_reqs + $user_books < 2) {
                 $request->sendRequest();

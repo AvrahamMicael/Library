@@ -112,7 +112,7 @@ final class Request extends Model {
         $this->toggleAvailable();
     }
 
-    private function toggleAvailable() {
+    public function toggleAvailable() {
         $query = '
             select available
             from tb_books
