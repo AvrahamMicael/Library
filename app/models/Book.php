@@ -55,4 +55,12 @@ final class Book extends Model {
         return $bk;
     }
 
+    public function addBook() {
+        $query = '
+            insert into tb_books(title, author, description, published_at, pages, genres, image_link)
+            values(?, ?, ?, ?, ?, ?, ?)
+        ';
+        $this->prepareExecFetchQuery($query, ['title', 'author', 'description', 'published_at', 'pages', 'genres', 'image_link']);
+    }
+
 }

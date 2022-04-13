@@ -1,0 +1,106 @@
+<?php if(isset($this->view->response)) {
+        if($this->view->response == 1) {
+?>
+
+    <div class="text-center mb-2 bg-success text-light">
+        Book was successfuly added!
+    </div>
+
+<?php } elseif($this->view->response == 2) { ?>
+
+    <div class="text-center mb-2 bg-warning text-light">
+        Something was empty!
+    </div>
+
+<?php }} ?>
+
+
+<form action="/add_book" method="post">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="title">Title:</label>
+                <input class="form-control mb-2" type="text" name="title" id="title">
+            </div>
+            <div class="col-sm-6">
+                <label for="author">Author:</label>
+                <input class="form-control mb-2" type="text" name="author" id="author">
+            </div>
+        </div>
+        <label for="description">Description:</label>
+        <textarea class="form-control mb-2" name="description" id="description"></textarea>
+        <div class="row mb-2">
+            <div class="col-sm-3 align-self-center">
+                <label for="published_at">Published at:</label>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" name="published_at" id="published_at">
+
+                    <?php for($i = 2022; $i > 1900; $i--) { ?>
+
+                        <option value="<?= $i ?>"><?= $i ?></option>
+
+                    <?php }; ?>
+
+                </select>
+            </div>
+            <div class="col-sm-2 align-self-center">
+                <label for="pages">Pages:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" min="1" name="pages" id="pages">
+            </div>
+        </div>
+
+        <label>Genres:</label>
+        <div class="row mb-2">
+            <div class="col-sm-4">
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Action" class="form-check-input"><label class="form-check-label mr-3">Action</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Adventure" class="form-check-input"><label class="form-check-label mr-3">Adventure</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="SF" class="form-check-input"><label class="form-check-label mr-3">SF</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" name="genres[]" value="Dystopian" class="form-check-input"><label class="form-check-label mr-3">Dystopian</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Thriller" class="form-check-input"><label class="form-check-label mr-3">Thriller</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Non-fiction" class="form-check-input"><label class="form-check-label mr-3">Non-fiction</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Tretise" class="form-check-input"><label class="form-check-label mr-3">Tretise</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Economics" class="form-check-input"><label class="form-check-label mr-3">Economics</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Fiction" class="form-check-input"><label class="form-check-label mr-3">Fiction</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Self-help" class="form-check-input"><label class="form-check-label mr-3">Self-help</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Classic" class="form-check-input"><label class="form-check-label mr-3">Classic</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="genres[]" value="Mystery" class="form-check-input"><label class="form-check-label mr-3">Mystery</label>
+                </div>
+            </div>
+        </div>
+        <label for="image_link">Book's image Link:</label>
+        <input class="form-control mb-2" type="text" name="image_link" id="image_link">
+        <div class="text-center mt-4">
+            <button class="btn btn-info" type="submit">Add Book</button>
+        </div>
+    </div>
+</form>

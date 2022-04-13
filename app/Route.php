@@ -82,10 +82,15 @@ class Route extends Bootstrap {
             'controller' => 'AppController',
             'action' => 'currentlyUsing'
         ];
-        $routes['remove_book_admin'] = [
-            'route' => '/remove_book_admin',
+        $routes['remove_user_book_admin'] = [
+            'route' => '/remove_user_book_admin',
             'controller' => 'AppController',
             'action' => 'removeBookAdmin'
+        ];
+        $routes['add_book_view'] = [
+            'route' => '/add_book_view',
+            'controller' => 'AppController',
+            'action' => 'addBookView'
         ];
         $routes['add_book'] = [
             'route' => '/add_book',

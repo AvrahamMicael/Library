@@ -92,6 +92,43 @@ final class AppController extends Action {
         $this->render('currently_using', 'layout3');
     }
 
+    public function addBookView() {
+        $this->validAuthAdmin();
+
+        $this->view->response = $_GET['r'] ?? null;
+
+        $this->render('add_book_view', 'layout3');
+    }
+
+    public function addBook() {
+        $this->validAuthAdmin();
+
+        $empty = false;
+
+        foreach($_POST as $post) {
+            if(empty($post)) $empty = true;
+        }
+
+        if(!$empty) {
+
+            $_POST['genres'] = implode('#', $_POST['genres']);
+    
+            $book = Container::getModel('book');
+            $book->__set('title', $_POST['title']);
+            $book->__set('author', $_POST['author']);
+            $book->__set('description', $_POST['description']);
+            $book->__set('published_at', $_POST['published_at']);
+            $book->__set('pages', $_POST['pages']);
+            $book->__set('genres', $_POST['genres']);
+            $book->__set('image_link', $_POST['image_link']);
+            $book->addBook();
+
+            header('location: /add_book_view?r=1');
+
+        } else header('location: /add_book_view?r=0');
+
+    }
+
     public function removeBook() {
         $this->validAuth();
 
@@ -109,7 +146,7 @@ final class AppController extends Action {
         header("location: /book_info?id=$id");
     }
 
-    public function removeBookAdmin() {
+    public function removeUserBookAdmin() {
         $this->validAuthAdmin();
 
         $id = $_GET['id'] ?? ''; //book_id
