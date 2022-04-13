@@ -28,9 +28,9 @@ final class Request extends Model {
         return false;
     }
 
-    public function removeRequest() {
+    public function removeRequest(bool $same_book = false) {
         $verify = $this->verifyRequest();
-        if($verify || $verify == 'already have the book') {
+        if(!$same_book && ($verify || $verify == 'already have the book')) {
             $query = '
                 delete from tb_requests
                 where
@@ -40,6 +40,13 @@ final class Request extends Model {
             ';
             $this->prepareExecFetchQuery($query, ['request_sender_id', 'requested_book_id']);
         }
+        if($same_book) {
+            $query = '
+                delete from tb_requests
+                where requested_book_id = ?
+            ';
+            $this->prepareExecFetchQuery($query, ['requested_book_id']);
+        }//no one can get the same book
     }
     
     public function verifyRequest() {
@@ -101,7 +108,7 @@ final class Request extends Model {
             where id_user = ?
         ";
         $this->prepareExecFetchQuery($query, ['requested_book_id', 'request_sender_id']);
-        $this->removeRequest();
+        $this->removeRequest(true);
         $this->toggleAvailable();
     }
 
@@ -120,4 +127,13 @@ final class Request extends Model {
         ";
         $this->prepareExecFetchQuery($query, ['requested_book_id']);
     }   
+
+    public function countUserRequests() {
+        $query = '
+            select count(*) as total
+            from tb_requests
+            where request_sender_id = ?
+        ';
+        return $this->prepareExecFetchQuery($query, ['request_sender_id']);
+    }
 }

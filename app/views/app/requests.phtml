@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="my-2">
-                    <em><?= $request['title'] ?></em>
+                    <em><?= strlen($request['title']) > 26 ? substr($request['title'], 0, 25).'...' : $request['title'] ?></em>
                 </div>
 
                 <form action="/accept_request" method="post">

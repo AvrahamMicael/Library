@@ -75,6 +75,7 @@ final class AppController extends Action {
         $request->__set('request_sender_id', $_SESSION['id_user']);
 
         $this->view->requested = $request->verifyRequest();
+        $this->view->warning = $_GET['warning'] ?? '';
 
         $this->render('book_info', 'layout2');
     }
@@ -88,16 +89,32 @@ final class AppController extends Action {
         $book->__set('id', $id);
         $available = $book->getBook()['available'];
 
+        $location = "location: /book_info?id=$id";
+
         if($available == 1) { 
 
             $request = Container::getModel('request');
             $request->__set('requested_book_id', $id);
             $request->__set('request_sender_id', $_SESSION['id_user']);
-            $request->sendRequest();
 
-        }
+            $user_reqs = $request->countUserRequests()['total'];
 
-        header("location: /book_info?id=$id");
+            $user = Container::getModel('user');
+            $user->__set('id_user', $_SESSION['id_user']);
+
+            $user_books = count($user->getBooks());
+
+            echo $user_reqs;
+            echo '<br>';
+            echo $user_books;
+
+            if($user_reqs + $user_books < 2) {
+                $request->sendRequest();
+                header($location);
+            } else header($location.'&warning=1');
+
+        } else header($location);
+
     }
 
     public function removeRequest() {
