@@ -69,7 +69,7 @@ final class AppController extends Action {
 
         $not = Container::getModel('notification');
         $not->__set('id_user', $_POST['id_user']);
-        $not->__set('notification', 'Admin accepted your request!');
+        $not->__set('notification', 'Your request was accepted!');
         $not->sendNotification();
 
         header("location: /view_requests");
@@ -85,7 +85,7 @@ final class AppController extends Action {
 
         $not = Container::getModel('notification');
         $not->__set('id_user', $_POST['id_user']);
-        $not->__set('notification', 'Admin rejected your request!');
+        $not->__set('notification', 'Your request was rejects!');
         $not->sendNotification();
 
         header("location: /view_requests");
@@ -204,7 +204,7 @@ final class AppController extends Action {
 
         $not = Container::getModel('notification');
         $not->__set('id_user', $id_user);
-        $not->__set('notification', 'Admin removed a book from you!');
+        $not->__set('notification', 'A book was removed from you!');
         $not->sendNotification();
 
         header('location: /currently_using');
