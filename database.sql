@@ -27,6 +27,12 @@ create table tb_requests(
     requested_book_id int not null,
     foreign key(requested_book_id) references tb_books(id)
 );
+create table tb_notifications(
+    id_not int not null primary key AUTO_INCREMENT,
+    notification varchar(50) not null,
+    id_user int not null,
+    foreign key(id_user) references tb_users(id_user)
+);
 
 --the user with id 1 is the admin
 

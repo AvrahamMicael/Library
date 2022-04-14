@@ -42,6 +42,37 @@
 						<li class="list-group-item <?= $this->view->content == 'your_books' ? 'active' : '' ?>" ><a class="d-block" href="/your_books">Your Books</a></li>
 						<li class="list-group-item <?= $this->view->content == 'all' ? 'active' : '' ?>"><a class="d-block" href="/all">All</a></li>
 					</ul>
+
+					<div class="container page mt-4">
+						<div class="text-center">
+							<h6>Notifications</h6>
+						</div>
+						<hr>
+
+						<div class="row">
+						
+							<?php if(isset($this->view->notifications)) { 
+									if(!empty($this->view->notifications)) {
+										foreach($this->view->notifications as $key =>$not) {
+							?>
+
+								<p class="col-sm-10"><?= $key + 1 ?>. <?= $not['notification'] ?></p>
+
+								<div class="col-sm-2 mt-3">
+									<a href="/remove_notification?id_not=<?= $not['id_not'] ?>"><i class="fas fa-trash-alt fa-lg text-danger"></i></a>
+								</div>
+
+							<?php };} else { ?>
+
+								<div class="col-sm-12 text-center text-black-50">
+									You do not have notifications
+								</div>
+
+							<?php }} ?>
+
+						</div>
+
+					</div>
 				</div>
 
 				<div class="col-md-9">

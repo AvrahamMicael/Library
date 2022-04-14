@@ -18,6 +18,7 @@ final class AppController extends Action {
         $book = Container::getModel('book');
         $this->view->books = $book->getData(true);
 
+        $this->view->notifications = $this->getUserNotifications();
         $this->view->content = 'available';
         $this->render('books', 'layout2');
     }
@@ -29,6 +30,7 @@ final class AppController extends Action {
         $user->__set('id_user', $_SESSION['id_user']);
         $this->view->books = $user->getBooks();
 
+        $this->view->notifications = $this->getUserNotifications();
         $this->view->content = 'your_books';
         $this->render('books', 'layout2');
     }
@@ -41,6 +43,7 @@ final class AppController extends Action {
         $book = Container::getModel('book');
         $this->view->books = $book->getData();
         
+        $this->view->notifications = $this->getUserNotifications();
         $this->view->content = 'all';
         
         if($_SESSION['id_user'] == 1) $this->render('books', 'layout3');
@@ -64,10 +67,10 @@ final class AppController extends Action {
         $req->__set('requested_book_id', $_POST['id_book']);
         $req->acceptRequest();
 
-        // $not = Container::getModel('notification');
-        // $not->__set('id_user', $_POST['id_user']);
-        // $not->__set('content', 'Admin accepted your request!')
-        // $not->sendNotification();
+        $not = Container::getModel('notification');
+        $not->__set('id_user', $_POST['id_user']);
+        $not->__set('notification', 'Admin accepted your request!');
+        $not->sendNotification();
 
         header("location: /view_requests");
     }
@@ -80,10 +83,10 @@ final class AppController extends Action {
         $req->__set('requested_book_id', $_POST['id_book']);
         $req->rejectRequest();
 
-        // $not = Container::getModel('notification');
-        // $not->__set('id_user', $_POST['id_user']);
-        // $not->__set('content', 'Admin rejected your request!');
-        // $not->sendNotification();
+        $not = Container::getModel('notification');
+        $not->__set('id_user', $_POST['id_user']);
+        $not->__set('notification', 'Admin rejected your request!');
+        $not->sendNotification();
 
         header("location: /view_requests");
     }
@@ -104,6 +107,7 @@ final class AppController extends Action {
         $request->__set('request_sender_id', $_SESSION['id_user']);
         $this->view->requested = $request->verifyRequest();
         $this->view->warning = $_GET['warning'] ?? '';
+        $this->view->notifications = $this->getUserNotifications();
 
         $this->render('book_info', 'layout2');
     }
@@ -198,6 +202,11 @@ final class AppController extends Action {
         $req->__set('requested_book_id', $id);
         $req->toggleAvailable();
 
+        $not = Container::getModel('notification');
+        $not->__set('id_user', $id_user);
+        $not->__set('notification', 'Admin removed a book from you!');
+        $not->sendNotification();
+
         header('location: /currently_using');
     }
 
@@ -251,6 +260,20 @@ final class AppController extends Action {
         header("location: /book_info?id=$id");
     }
 
+    public function removeNotification() {
+        $this->validAuth();
+
+        $prevPage = str_replace("http://{$_SERVER['HTTP_HOST']}", '', $_SERVER['HTTP_REFERER']);
+        $id_not = $_GET['id_not'] ?? '';
+
+        $not = Container::getModel('notification');
+        $not->__set('id_not', $id_not);
+        $not->__set('id_user', $_SESSION['id_user']);
+        $not->removeNotification();
+
+        header("location: $prevPage");
+    }
+
     private function validAuth(bool $all = false) {
         session_start();
         if(empty($_SESSION['id_user']) && empty($_SESSION['name'])) header('location: /');
@@ -260,5 +283,13 @@ final class AppController extends Action {
     private function validAuthAdmin() {
         session_start();
         if($_SESSION['id_user'] != 1) header('location: /');
+    }
+
+    private function getUserNotifications() {
+        if($_SESSION['id_user'] == 1) return null;
+
+        $not = Container::getModel('notification');
+        $not->__set('id_user', $_SESSION['id_user']);
+        return $not->getUserNotifications();
     }
 }

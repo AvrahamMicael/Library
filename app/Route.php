@@ -90,7 +90,7 @@ class Route extends Bootstrap {
         $routes['remove_user_book_admin'] = [
             'route' => '/remove_user_book_admin',
             'controller' => 'AppController',
-            'action' => 'removeBookAdmin'
+            'action' => 'removeUserBookAdmin'
         ];
         $routes['add_book_view'] = [
             'route' => '/add_book_view',
@@ -106,6 +106,11 @@ class Route extends Bootstrap {
             'route' => '/remove_book_permanently',
             'controller' => 'AppController',
             'action' => 'removeBookPermanently'
+        ];
+        $routes['remove_notification'] = [
+            'route' => '/remove_notification',
+            'controller' => 'AppController',
+            'action' => 'removeNotification'
         ];
         $this->setRoutes($routes);
     }
