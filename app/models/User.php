@@ -64,7 +64,7 @@ final class User extends Model {
         if(!is_null($email) && strlen($email) < 12) return true;
         if(!is_null($password) && strlen($password) < 4) return true;
 
-        $this->__set('name', $name);
+        $this->__set('name', ucfirst($name));
         $this->__set('email', $email);
         $this->__set('password', hash('sha3-512', $password));
 
